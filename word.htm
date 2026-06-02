@@ -1,173 +1,94 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>IKEA 업무 용어 검색</title>
   <style>
     :root {
-      --blue:#0b5cab;
-      --blue-dark:#064a8a;
-      --bg:#f5f7fa;
-      --card:#ffffff;
-      --line:#d8e0ea;
-      --text:#17202a;
-      --muted:#5f6f82;
-      --mark:#fff2a8;
-      --shadow:0 6px 22px rgba(20,40,70,.08);
-      --radius:16px;
+      --blue:#0058a3; --blue-dark:#003f78; --bg:#f4f6f8; --card:#fff;
+      --line:#d9e1ea; --text:#17202a; --muted:#637488;
+      --shadow:0 8px 24px rgba(20,40,70,.08); --radius:16px;
     }
     * { box-sizing:border-box; }
     html { -webkit-text-size-adjust:100%; }
     body {
       margin:0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      line-height:1.55;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.55;
     }
-    .page { max-width:1200px; margin:0 auto; padding:24px 18px 48px; }
-    header { margin-bottom:18px; }
-    h1 { font-size:28px; line-height:1.2; margin:0 0 8px; letter-spacing:-.04em; }
-    .subtitle { margin:0; color:var(--muted); font-size:14px; }
+    .page { max-width:1200px; margin:0 auto; padding:22px 16px 48px; }
+    h1 { margin:0 0 6px; font-size:28px; line-height:1.2; letter-spacing:-.04em; }
+    .subtitle { margin:0 0 14px; color:var(--muted); font-size:14px; }
     .search-panel {
-      position:sticky;
-      top:0;
-      z-index:10;
-      background:rgba(245,247,250,.94);
-      backdrop-filter: blur(10px);
-      padding:14px 0 16px;
-      border-bottom:1px solid rgba(216,224,234,.7);
+      position:sticky; top:0; z-index:20; margin:0 -16px 18px; padding:12px 16px 14px;
+      background:rgba(244,246,248,.96); backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(217,225,234,.85);
     }
-    .search-box {
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) auto auto;
-      gap:8px;
-      align-items:center;
-    }
+    .search-box { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; }
+    .search-actions { display:grid; grid-template-columns:auto auto; gap:8px; }
     input[type="search"] {
-      width:100%;
-      min-height:46px;
-      padding:0 14px;
-      font-size:16px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      outline:none;
-      background:#fff;
+      width:100%; min-height:46px; border:1px solid var(--line); border-radius:12px;
+      padding:0 14px; background:#fff; font-size:16px; outline:none;
     }
-    input[type="search"]:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(11,92,171,.12); }
+    input[type="search"]:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,88,163,.13); }
     button {
-      min-height:46px;
-      padding:0 16px;
-      border:0;
-      border-radius:12px;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-      white-space:nowrap;
+      min-height:46px; border:0; border-radius:12px; padding:0 16px;
+      font-size:15px; font-weight:700; cursor:pointer; white-space:nowrap;
     }
     .btn-primary { background:var(--blue); color:#fff; }
-    .btn-primary:hover { background:var(--blue-dark); }
-    .btn-ghost { background:#e9eef5; color:#25364a; }
+    .btn-primary:hover,.btn-primary:active { background:var(--blue-dark); }
+    .btn-ghost { background:#e7edf4; color:#26384c; }
     .status { margin-top:10px; color:var(--muted); font-size:14px; }
-    mark { background:var(--mark); padding:0 .08em; border-radius:3px; }
-
-    .table-wrap {
-      margin-top:18px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
+    .table-wrap { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
     table { width:100%; border-collapse:collapse; table-layout:fixed; }
-    th {
-      background:var(--blue);
-      color:#fff;
-      font-size:14px;
-      text-align:left;
-      padding:12px 14px;
-      border-right:1px solid rgba(255,255,255,.25);
+    thead th {
+      background:var(--blue); color:#fff; padding:12px 14px; font-size:15px;
+      text-align:left; border-right:1px solid rgba(255,255,255,.35);
     }
-    th:nth-child(1) { width:16%; }
-    th:nth-child(2) { width:36%; }
-    th:nth-child(3) { width:48%; }
-    td {
-      vertical-align:top;
-      padding:12px 14px;
-      border-top:1px solid var(--line);
-      border-right:1px solid var(--line);
-      font-size:14px;
-      word-break:break-word;
-      white-space:pre-line;
+    thead th:first-child { width:17%; }
+    thead th:nth-child(2) { width:35%; }
+    thead th:nth-child(3) { width:48%; }
+    tbody td {
+      padding:12px 14px; border-top:1px solid var(--line); border-right:1px solid var(--line);
+      vertical-align:top; white-space:pre-line; word-break:keep-all; overflow-wrap:anywhere;
     }
-    td:last-child, th:last-child { border-right:0; }
-    .term { font-weight:800; color:#0a3768; }
+    tbody tr:hover { background:#f9fbfd; }
+    tr.is-hidden { display:none !important; }
+    .term {
+      display:inline-flex; align-items:center; min-height:30px; padding:2px 9px;
+      border-radius:999px; background:#edf5ff; color:#003f78; font-weight:800; letter-spacing:.01em;
+    }
     .empty {
-      display:none;
-      margin-top:18px;
-      background:#fff;
-      border:1px dashed var(--line);
-      border-radius:var(--radius);
-      padding:24px;
-      text-align:center;
-      color:var(--muted);
+      display:none; margin:18px 0 0; padding:22px; text-align:center;
+      border:1px dashed var(--line); border-radius:var(--radius); color:var(--muted); background:#fff;
     }
     .empty.show { display:block; }
-    footer { margin-top:18px; color:var(--muted); font-size:12px; }
-
-    @media (max-width: 720px) {
-      .page { padding:16px 12px 32px; }
+    @media (max-width:720px) {
+      .page { padding:18px 12px 40px; }
       h1 { font-size:22px; }
       .subtitle { font-size:13px; }
-      .search-panel { padding-top:10px; }
-      .search-box { grid-template-columns:1fr; }
+      .search-panel { margin:0 -12px 14px; padding:10px 12px 12px; }
+      .search-box { grid-template-columns:1fr; gap:7px; }
+      .search-actions { grid-template-columns:1fr 1fr; gap:7px; }
       button { width:100%; }
-      .table-wrap {
-        margin-top:14px;
-        background:transparent;
-        border:0;
-        border-radius:0;
-        box-shadow:none;
-        overflow:visible;
-      }
-      table, thead, tbody, tr, th, td { display:block; width:100%; }
+      .table-wrap { border:0; background:transparent; box-shadow:none; overflow:visible; }
+      table, thead, tbody, tr, td { display:block; width:100%; }
       thead { display:none; }
-      tr {
-        background:var(--card);
-        border:1px solid var(--line);
-        border-radius:16px;
-        box-shadow:var(--shadow);
-        padding:12px 14px;
-        margin-bottom:12px;
+      tbody tr {
+        margin:0 0 12px; background:#fff; border:1px solid var(--line);
+        border-radius:16px; box-shadow:var(--shadow); overflow:hidden;
       }
-      td {
-        border:0;
-        padding:7px 0;
-        font-size:15px;
-        white-space:pre-line;
+      tbody tr:hover { background:#fff; }
+      tbody td { border:0; padding:10px 13px 12px; white-space:pre-line; }
+      tbody td::before {
+        content:attr(data-label); display:block; margin-bottom:4px;
+        color:var(--muted); font-size:12px; font-weight:800; letter-spacing:-.02em;
       }
-      td::before {
-        content:attr(data-label);
-        display:block;
-        margin-bottom:2px;
-        color:var(--muted);
-        font-size:12px;
-        font-weight:800;
-        letter-spacing:-.02em;
-      }
-      td.term-cell { padding-top:0; }
-      td.term-cell .term {
-        display:inline-block;
-        font-size:22px;
-        line-height:1.15;
-        color:var(--blue);
-      }
-      td.meaning-cell {
-        margin-top:3px;
-        padding-top:9px;
-        border-top:1px solid #edf1f5;
-      }
+      tbody td.term-cell { padding-top:14px; padding-bottom:8px; background:#f7fbff; }
+      tbody td.term-cell::before { display:none; }
+      .term { font-size:18px; min-height:34px; }
+      tbody td.meaning-cell { border-top:1px solid #edf1f5; }
     }
   </style>
 </head>
@@ -175,111 +96,1035 @@
   <main class="page">
     <header>
       <h1>IKEA 업무 용어 검색</h1>
-      <p class="subtitle">약자, 본래 표현, 의미를 빠르게 검색합니다. 모바일에서는 카드형으로 표시됩니다.</p>
+      <p class="subtitle">약자/용어, 본래의 표현, 의미 전체에서 검색됩니다. 모바일에서는 카드형으로 표시됩니다.</p>
     </header>
 
-    <section class="search-panel" aria-label="검색 영역">
+    <section class="search-panel" aria-label="용어 검색">
       <form class="search-box" id="searchForm">
-        <input id="searchInput" type="search" placeholder="예: AHT, Delivery, 고객지원, 반품" autocomplete="off" aria-label="검색어 입력" />
-        <button class="btn-primary" type="submit">검색</button>
-        <button class="btn-ghost" type="button" id="resetBtn">전체보기</button>
+        <input id="searchInput" type="search" placeholder="예: CDC, 배송, refund, KPI" autocomplete="off">
+        <div class="search-actions">
+          <button type="submit" class="btn-primary">검색</button>
+          <button type="button" id="resetBtn" class="btn-ghost">전체보기</button>
+        </div>
       </form>
-      <div class="status" id="status"></div>
+      <div class="status" id="status">전체 131개 용어</div>
     </section>
 
-    <section class="table-wrap" aria-label="용어 목록">
+    <section class="table-wrap" aria-label="IKEA 업무 용어 표">
       <table>
         <thead>
-          <tr>
-            <th>약자 / 용어</th>
-            <th>본래의 표현</th>
-            <th>의미</th>
-          </tr>
+          <tr><th>약자 / 용어</th><th>본래의 표현</th><th>의미</th></tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="tbody">
+<tr data-search="aci a tool for online payment, used to view transactions in real time, extract reconciliation reports, view statistics and make refunds. e-com 오더의 거래내역 또는 돌&amp;환불 진행
+tool for viewing e-com order transaction history and handling exchanges/refunds.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ACI</span></td>
+      <td data-label="본래의 표현">A tool for online payment, used to view transactions in real time, extract reconciliation reports, view statistics and make refunds.</td>
+      <td class="meaning-cell" data-label="의미">e-Com 오더의 거래내역 또는 돌&amp;환불 진행
+Tool for viewing e-Com order transaction history and handling exchanges/refunds.</td>
+    </tr>
+<tr data-search="acw after call work 전화상담 후처리 업무
+post-call work after a phone consultation.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ACW</span></td>
+      <td data-label="본래의 표현">After Call Work</td>
+      <td class="meaning-cell" data-label="의미">전화상담 후처리 업무
+Post-call work after a phone consultation.</td>
+    </tr>
+<tr data-search="aht average handling time 평균 처리 시간
+average time required to handle a case/contact.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">AHT</span></td>
+      <td data-label="본래의 표현">Average Handling Time</td>
+      <td class="meaning-cell" data-label="의미">평균 처리 시간
+Average time required to handle a case/contact.</td>
+    </tr>
+<tr data-search="app application 스마트폰의 앱(애플리케이션) - ikea store 모바일 앱
+smartphone application; ikea store mobile app.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">APP</span></td>
+      <td data-label="본래의 표현">Application</td>
+      <td class="meaning-cell" data-label="의미">스마트폰의 앱(애플리케이션) - IKEA Store 모바일 앱
+Smartphone application; IKEA Store mobile app.</td>
+    </tr>
+<tr data-search="asa average speed of answer 평균 응답 속도
+average speed at which calls/contacts are answered.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ASA</span></td>
+      <td data-label="본래의 표현">Average Speed of Answer</td>
+      <td class="meaning-cell" data-label="의미">평균 응답 속도
+Average speed at which calls/contacts are answered.</td>
+    </tr>
+<tr data-search="asr administration support retail ">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ASR</span></td>
+      <td data-label="본래의 표현">Administration Support Retail</td>
+      <td class="meaning-cell" data-label="의미"></td>
+    </tr>
+<tr data-search="att average talk time 평균 통화 시간
+average time spent talking on a call.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ATT</span></td>
+      <td data-label="본래의 표현">Average Talk Time</td>
+      <td class="meaning-cell" data-label="의미">평균 통화 시간
+Average time spent talking on a call.</td>
+    </tr>
+<tr data-search="bno business navigation and operation 스태프 플래닝(스케줄), 예산, 진행 컨트롤, 건물 유지보수, 리커버리팀 등
+staff planning (schedules), budgets, process/control, building maintenance, recovery team, etc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">BNO</span></td>
+      <td data-label="본래의 표현">Business Navigation and Operation</td>
+      <td class="meaning-cell" data-label="의미">스태프 플래닝(스케줄), 예산, 진행 컨트롤, 건물 유지보수, 리커버리팀 등
+Staff planning (schedules), budgets, process/control, building maintenance, Recovery team, etc.</td>
+    </tr>
+<tr data-search="bs business service team (csc 부서)
+csc department.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">BS</span></td>
+      <td data-label="본래의 표현">Business Service Team</td>
+      <td class="meaning-cell" data-label="의미">(CSC 부서)
+CSC department.</td>
+    </tr>
+<tr data-search="bu business unit 비즈니스 유닛 (store, cdc, csc, so 등과 같은 사업의 큰 단위)
+business unit; a large business unit such as store, cdc, csc, so, etc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">BU</span></td>
+      <td data-label="본래의 표현">Business Unit</td>
+      <td class="meaning-cell" data-label="의미">비즈니스 유닛 (Store, CDC, CSC, SO 등과 같은 사업의 큰 단위)
+Business unit; a large business unit such as Store, CDC, CSC, SO, etc.</td>
+    </tr>
+<tr data-search="c3web centiro 배송 관련 프로그램 이름 (csc tspe에서 주로 사용)
+name of a delivery-related program, mainly used in csc tspe.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">C3WEB</span></td>
+      <td data-label="본래의 표현">Centiro</td>
+      <td class="meaning-cell" data-label="의미">배송 관련 프로그램 이름 (CSC TSPE에서 주로 사용)
+Name of a delivery-related program, mainly used in CSC TSPE.</td>
+    </tr>
+<tr data-search="ccd central customer delivery
+(delivery service from central warehouse to a customer) 중앙 고객 배송 (cdc를 통해 이루어지는 배송=이커머스 배송)
+central customer delivery; delivery from cdc/central warehouse to customer, i.e., e-commerce delivery.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CCD</span></td>
+      <td data-label="본래의 표현">Central Customer Delivery
+(Delivery Service from Central Warehouse to a customer)</td>
+      <td class="meaning-cell" data-label="의미">중앙 고객 배송 (CDC를 통해 이루어지는 배송=이커머스 배송)
+Central customer delivery; delivery from CDC/central warehouse to customer, i.e., e-commerce delivery.</td>
+    </tr>
+<tr data-search="cda - 전략적 주요 지역
+strategic key area.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CDA</span></td>
+      <td data-label="본래의 표현">-</td>
+      <td class="meaning-cell" data-label="의미">전략적 주요 지역
+Strategic key area.</td>
+    </tr>
+<tr data-search="cdc customer distribution centre 중앙 물류창고
+central distribution center/warehouse.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CDC</span></td>
+      <td data-label="본래의 표현">Customer Distribution Centre</td>
+      <td class="meaning-cell" data-label="의미">중앙 물류창고
+Central distribution center/warehouse.</td>
+    </tr>
+<tr data-search="cdos customer distribution order service ccd 재고 및 제품 등을 관리하는 부서
+department that manages ccd stock and products.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CDOS</span></td>
+      <td data-label="본래의 표현">Customer Distribution Order Service</td>
+      <td class="meaning-cell" data-label="의미">CCD 재고 및 제품 등을 관리하는 부서
+Department that manages CCD stock and products.</td>
+    </tr>
+<tr data-search="cdu customer distribution unit cdc에서 픽킹 되는 단위
+unit picked at cdc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CDU</span></td>
+      <td data-label="본래의 표현">Customer Distribution Unit</td>
+      <td class="meaning-cell" data-label="의미">CDC에서 픽킹 되는 단위
+Unit picked at CDC.</td>
+    </tr>
+<tr data-search="chatph chat per hour 시간당 채팅 처리 수
+number of chats handled per hour.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ChatPH</span></td>
+      <td data-label="본래의 표현">Chat per Hour</td>
+      <td class="meaning-cell" data-label="의미">시간당 채팅 처리 수
+Number of chats handled per hour.</td>
+    </tr>
+<tr data-search="com&amp;in communication and interior design 디자인팀
+design team.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">COM&amp;IN</span></td>
+      <td data-label="본래의 표현">Communication and Interior design</td>
+      <td class="meaning-cell" data-label="의미">디자인팀
+Design team.</td>
+    </tr>
+<tr data-search="cph call per hour 시간당 콜 처리 수
+number of calls handled per hour.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CPH</span></td>
+      <td data-label="본래의 표현">Call Per Hour</td>
+      <td class="meaning-cell" data-label="의미">시간당 콜 처리 수
+Number of calls handled per hour.</td>
+    </tr>
+<tr data-search="cpu central parcel unit 택배 제품 유닛
+parcel-product unit.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CPU</span></td>
+      <td data-label="본래의 표현">Central Parcel Unit</td>
+      <td class="meaning-cell" data-label="의미">택배 제품 유닛
+Parcel-product unit.</td>
+    </tr>
+<tr data-search="cr customer resolution team (csc 부서)
+csc department.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CR</span></td>
+      <td data-label="본래의 표현">Customer Resolution Team</td>
+      <td class="meaning-cell" data-label="의미">(CSC 부서)
+CSC department.</td>
+    </tr>
+<tr data-search="cr customer relations 고객지원팀
+customer relations / customer support team.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CR</span></td>
+      <td data-label="본래의 표현">Customer Relations</td>
+      <td class="meaning-cell" data-label="의미">고객지원팀
+Customer Relations / customer support team.</td>
+    </tr>
+<tr data-search="crm customer relations management 고객관계관리
+customer relationship management.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CRM</span></td>
+      <td data-label="본래의 표현">Customer Relations Management</td>
+      <td class="meaning-cell" data-label="의미">고객관계관리
+Customer relationship management.</td>
+    </tr>
+<tr data-search="csc customer support centre 고객지원센터
+customer support centre.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CSC</span></td>
+      <td data-label="본래의 표현">Customer Support Centre</td>
+      <td class="meaning-cell" data-label="의미">고객지원센터
+Customer Support Centre.</td>
+    </tr>
+<tr data-search="cwis common warehouse information service.
+(new warehouse platform that replaces vico) cdc 운영 관련 시스템
+cdc operations-related system.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CWIS</span></td>
+      <td data-label="본래의 표현">Common Warehouse Information Service.
+(New warehouse platform that replaces ViCO)</td>
+      <td class="meaning-cell" data-label="의미">CDC 운영 관련 시스템
+CDC operations-related system.</td>
+    </tr>
+<tr data-search="cy calendar year 달력 상의 1년 (매년 1월~12월)
+calendar year (january to december).">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">CY</span></td>
+      <td data-label="본래의 표현">Calendar Year</td>
+      <td class="meaning-cell" data-label="의미">달력 상의 1년 (매년 1월~12월)
+Calendar year (January to December).</td>
+    </tr>
+<tr data-search="democratic design low cost, design, quality, and sustainability 저렴한 비용, 디자인, 품질 및 지속가능성
+low cost, design, quality and sustainability.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">Democratic Design</span></td>
+      <td data-label="본래의 표현">Low cost, Design, Quality, and Sustainability</td>
+      <td class="meaning-cell" data-label="의미">저렴한 비용, 디자인, 품질 및 지속가능성
+Low cost, design, quality and sustainability.</td>
+    </tr>
+<tr data-search="ds date stamp 제조 시기
+manufacturing date/production period.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">DS</span></td>
+      <td data-label="본래의 표현">Date Stamp</td>
+      <td class="meaning-cell" data-label="의미">제조 시기
+Manufacturing date/production period.</td>
+    </tr>
+<tr data-search="ecomm e-commerce 이커머스 = 전자상거래 = 온라인 몰
+e-commerce; online store.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">eComm</span></td>
+      <td data-label="본래의 표현">e-Commerce</td>
+      <td class="meaning-cell" data-label="의미">이커머스 = 전자상거래 = 온라인 몰
+E-commerce; online store.</td>
+    </tr>
+<tr data-search="eirw enhanced ikea retail website 이커머스 기능이 포함된 ikea 공식 웹사이트 (접속 주소 등이 똑같아서 코워커는 굳이 irw와 구분하여 표현하지 않아도 됨)
+ikea official website with e-commerce functions; co-workers do not usually need to distinguish it from irw because the access address is the same.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">eIRW</span></td>
+      <td data-label="본래의 표현">enhanced IKEA Retail Website</td>
+      <td class="meaning-cell" data-label="의미">이커머스 기능이 포함된 IKEA 공식 웹사이트 (접속 주소 등이 똑같아서 코워커는 굳이 IRW와 구분하여 표현하지 않아도 됨)
+IKEA official website with e-commerce functions; co-workers do not usually need to distinguish it from IRW because the access address is the same.</td>
+    </tr>
+<tr data-search="eph email per hour 시간당 이메일 처리 수
+number of emails handled per hour.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">EPH</span></td>
+      <td data-label="본래의 표현">Email Per Hour</td>
+      <td class="meaning-cell" data-label="의미">시간당 이메일 처리 수
+Number of emails handled per hour.</td>
+    </tr>
+<tr data-search="esp external service provider (cdc operation) cdc운영관리
+external provider managing cdc operations.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ESP</span></td>
+      <td data-label="본래의 표현">External Service Provider (CDC operation)</td>
+      <td class="meaning-cell" data-label="의미">CDC운영관리
+External provider managing CDC operations.</td>
+    </tr>
+<tr data-search="ess employee self service 급여 조회 사이트
+employee self-service site for payroll lookup.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ESS</span></td>
+      <td data-label="본래의 표현">Employee Self Service</td>
+      <td class="meaning-cell" data-label="의미">급여 조회 사이트
+Employee self-service site for payroll lookup.</td>
+    </tr>
+<tr data-search="evex even exchange home delivery, 또는 기타 사유에 의해서 배송되었던 상품에 하자, 오류가 있었을 경우 self-serve에서 picking 하여 home-delivery에 넘겨주는 업무로서 해당 case가 발생시 rdt에서 evex리스트를 확인하고, picking 상품을 스캔 후 hand-over하면 된다.
+even exchange process for items delivered by home delivery or for other reasons when a defect/error exists; pick in self-serve, hand over to home delivery. check the evex list in rdt, scan picked items, then hand over.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">EVEX</span></td>
+      <td data-label="본래의 표현">Even Exchange</td>
+      <td class="meaning-cell" data-label="의미">Home Delivery, 또는 기타 사유에 의해서 배송되었던 상품에 하자, 오류가 있었을 경우 Self-serve에서 picking 하여 Home-Delivery에 넘겨주는 업무로서 해당 case가 발생시 RDT에서 EVEX리스트를 확인하고, Picking 상품을 스캔 후 Hand-over하면 된다.
+Even exchange process for items delivered by Home Delivery or for other reasons when a defect/error exists; pick in Self-serve, hand over to Home Delivery. Check the EVEX list in RDT, scan picked items, then hand over.</td>
+    </tr>
+<tr data-search="fcr first call resolution 첫 번째 전화연결에서 해결
+resolving the issue on the first call.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FCR</span></td>
+      <td data-label="본래의 표현">First Call Resolution</td>
+      <td class="meaning-cell" data-label="의미">첫 번째 전화연결에서 해결
+Resolving the issue on the first call.</td>
+    </tr>
+<tr data-search="first 5 first 5 room setting ikea의 business plan과 priority를 상징적으로 나타낸다. 그 중 1개의 room은 complete price를 가지는 형태이며 (주로) 해당 국가의 co-worker salary수준의 가격대로 구성하는 것이 일반적이다.
+symbolically shows ikea’s business plan and priorities. one room usually has a complete price and is typically set at a price level aligned with co-worker salary levels in that country.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">First 5</span></td>
+      <td data-label="본래의 표현">First 5 Room setting</td>
+      <td class="meaning-cell" data-label="의미">IKEA의 Business Plan과 Priority를 상징적으로 나타낸다. 그 중 1개의 Room은 complete price를 가지는 형태이며 (주로) 해당 국가의 co-worker salary수준의 가격대로 구성하는 것이 일반적이다.
+Symbolically shows IKEA’s Business Plan and priorities. One room usually has a complete price and is typically set at a price level aligned with co-worker salary levels in that country.</td>
+    </tr>
+<tr data-search="fs full serve 풀서브
+full serve.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FS</span></td>
+      <td data-label="본래의 표현">Full Serve</td>
+      <td class="meaning-cell" data-label="의미">풀서브
+Full serve.</td>
+    </tr>
+<tr data-search="fsho full serve handout 풀서브핸드아웃
+full serve handout.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FSHO</span></td>
+      <td data-label="본래의 표현">Full Serve Handout</td>
+      <td class="meaning-cell" data-label="의미">풀서브핸드아웃
+Full Serve Handout.</td>
+    </tr>
+<tr data-search="fy financial year (fiscal year) 회계 년도 (매년 9월 1일 ~ 차년도 8월 31일)
+fiscal year (sept. 1 to aug. 31 of the following year).">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FY</span></td>
+      <td data-label="본래의 표현">Financial Year (Fiscal Year)</td>
+      <td class="meaning-cell" data-label="의미">회계 년도 (매년 9월 1일 ~ 차년도 8월 31일)
+Fiscal year (Sept. 1 to Aug. 31 of the following year).</td>
+    </tr>
+<tr data-search="fya for your action 당신의 행동을 위해
+for your action; action required from you.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FYA</span></td>
+      <td data-label="본래의 표현">For Your Action</td>
+      <td class="meaning-cell" data-label="의미">당신의 행동을 위해
+For your action; action required from you.</td>
+    </tr>
+<tr data-search="fyi for your information 당신의 정보를 위해
+for your information.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FYI</span></td>
+      <td data-label="본래의 표현">For Your Information</td>
+      <td class="meaning-cell" data-label="의미">당신의 정보를 위해
+For your information.</td>
+    </tr>
+<tr data-search="fyr for your reference 참고하세요
+for your reference.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">FYR</span></td>
+      <td data-label="본래의 표현">For Your Reference</td>
+      <td class="meaning-cell" data-label="의미">참고하세요
+For your reference.</td>
+    </tr>
+<tr data-search="go-with go-with 노사협의회 명칭 (gowith.kr@ikea.com)
+name of the labor-management council.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">Go-With</span></td>
+      <td data-label="본래의 표현">Go-With</td>
+      <td class="meaning-cell" data-label="의미">노사협의회 명칭 (gowith.kr@ikea.com)
+Name of the labor-management council.</td>
+    </tr>
+<tr data-search="gwi growth with impact ikea의 해당 회계년도 주요 사업목표 (중점 사업분야)
+ikea’s main business goal/focus area for the fiscal year.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">GWI</span></td>
+      <td data-label="본래의 표현">Growth with impact</td>
+      <td class="meaning-cell" data-label="의미">IKEA의 해당 회계년도 주요 사업목표 (중점 사업분야)
+IKEA’s main business goal/focus area for the fiscal year.</td>
+    </tr>
+<tr data-search="hassle free hassle free 번거로움이 없는 단순한 과정 (단순 교환환불 정책과 절차)
+simple, hassle-free process; simple exchange/refund policy and procedure.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">Hassle free</span></td>
+      <td data-label="본래의 표현">Hassle free</td>
+      <td class="meaning-cell" data-label="의미">번거로움이 없는 단순한 과정 (단순 교환환불 정책과 절차)
+Simple, hassle-free process; simple exchange/refund policy and procedure.</td>
+    </tr>
+<tr data-search="hd home delivery 홈딜리버리
+home delivery.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">HD</span></td>
+      <td data-label="본래의 표현">Home Delivery</td>
+      <td class="meaning-cell" data-label="의미">홈딜리버리
+Home delivery.</td>
+    </tr>
+<tr data-search="hr human resource 인사팀
+human resources.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">HR</span></td>
+      <td data-label="본래의 표현">Human Resource</td>
+      <td class="meaning-cell" data-label="의미">인사팀
+Human Resources.</td>
+    </tr>
+<tr data-search="huti help us to improve 고객만족도 조사 시스템 (매장 설치, 고객이 의견을 남길 수 있는 키오스크 기기)
+customer satisfaction survey system; in-store kiosk where customers can leave feedback.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">HUTI</span></td>
+      <td data-label="본래의 표현">Help Us To Improve</td>
+      <td class="meaning-cell" data-label="의미">고객만족도 조사 시스템 (매장 설치, 고객이 의견을 남길 수 있는 키오스크 기기)
+Customer satisfaction survey system; in-store kiosk where customers can leave feedback.</td>
+    </tr>
+<tr data-search="ico-worker ico-worker (아이코워커) 이케아 내/외부 모두에서 접속 가능한 코워커 지원 도구
+co-worker support tool accessible both inside and outside ikea.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ico-worker</span></td>
+      <td data-label="본래의 표현">ico-worker (아이코워커)</td>
+      <td class="meaning-cell" data-label="의미">이케아 내/외부 모두에서 접속 가능한 코워커 지원 도구
+Co-worker support tool accessible both inside and outside IKEA.</td>
+    </tr>
+<tr data-search="icss ikea customer satisfaction survey 고객만족도 조사
+customer satisfaction survey.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ICSS</span></td>
+      <td data-label="본래의 표현">IKEA Customer Satisfaction Survey</td>
+      <td class="meaning-cell" data-label="의미">고객만족도 조사
+Customer satisfaction survey.</td>
+    </tr>
+<tr data-search="if ikea food 푸드팀
+ikea food team.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">IF</span></td>
+      <td data-label="본래의 표현">IKEA FOOD</td>
+      <td class="meaning-cell" data-label="의미">푸드팀
+IKEA Food team.</td>
+    </tr>
+<tr data-search="inin interaction desktop (program) interaction desktop 프로그램의 회사 (interactive intelligence)
+※ csc에서 습관적으로 interaction desktop 프로그램 자체를 지칭함
+company behind interaction desktop (interactive intelligence); in csc it commonly refers to the interaction desktop program itself.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ININ</span></td>
+      <td data-label="본래의 표현">Interaction Desktop (program)</td>
+      <td class="meaning-cell" data-label="의미">Interaction Desktop 프로그램의 회사 (Interactive Intelligence)
+※ CSC에서 습관적으로 Interaction Desktop 프로그램 자체를 지칭함
+Company behind Interaction Desktop (Interactive Intelligence); in CSC it commonly refers to the Interaction Desktop program itself.</td>
+    </tr>
+<tr data-search="ios ikea of sweden 스웨덴 본사
+ikea of sweden / headquarters in sweden.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">IoS</span></td>
+      <td data-label="본래의 표현">IKEA of Sweden</td>
+      <td class="meaning-cell" data-label="의미">스웨덴 본사
+IKEA of Sweden / headquarters in Sweden.</td>
+    </tr>
+<tr data-search="irw ikea retail website ikea의 공식 웹사이트
+ikea official website.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">IRW</span></td>
+      <td data-label="본래의 표현">IKEA Retail Website</td>
+      <td class="meaning-cell" data-label="의미">IKEA의 공식 웹사이트
+IKEA official website.</td>
+    </tr>
+<tr data-search="isell (the sales and service application) 상품 및 서비스 판매 프로그램
+sales and service application for selling products and services.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ISELL</span></td>
+      <td data-label="본래의 표현">(The sales and service application)</td>
+      <td class="meaning-cell" data-label="의미">상품 및 서비스 판매 프로그램
+Sales and service application for selling products and services.</td>
+    </tr>
+<tr data-search="isom ikea sales order management cdc에서 ccd오더가 진행될 수 있도록 운영하는 시스템
+system used to manage/operate ccd orders so they can be processed at cdc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">ISOM</span></td>
+      <td data-label="본래의 표현">IKEA Sales Order Management</td>
+      <td class="meaning-cell" data-label="의미">CDC에서 CCD오더가 진행될 수 있도록 운영하는 시스템
+System used to manage/operate CCD orders so they can be processed at CDC.</td>
+    </tr>
+<tr data-search="ivr interactive voice response 대화식 음성 응답
+interactive voice response.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">IVR</span></td>
+      <td data-label="본래의 표현">Interactive Voice Response</td>
+      <td class="meaning-cell" data-label="의미">대화식 음성 응답
+Interactive voice response.</td>
+    </tr>
+<tr data-search="kmi knowledge management &amp; insights team (csc 부서)
+csc department.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">KMI</span></td>
+      <td data-label="본래의 표현">Knowledge Management &amp; Insights Team</td>
+      <td class="meaning-cell" data-label="의미">(CSC 부서)
+CSC department.</td>
+    </tr>
+<tr data-search="kms knowledge management system csc 관련 업무 지식을 모아놓은 웹사이트
+website that gathers csc-related work knowledge.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">KMS</span></td>
+      <td data-label="본래의 표현">Knowledge Management System</td>
+      <td class="meaning-cell" data-label="의미">CSC 관련 업무 지식을 모아놓은 웹사이트
+Website that gathers CSC-related work knowledge.</td>
+    </tr>
+<tr data-search="kpis key performance indicator 핵심 성과 지표 (업무 목표)
+→ kpis 설정 시 중점 요인은 &#x27;smart&#x27;를 검색해보세요.
+key performance indicators (work goals). when setting kpis, search “smart” for key criteria.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">KPIs</span></td>
+      <td data-label="본래의 표현">Key Performance Indicator</td>
+      <td class="meaning-cell" data-label="의미">핵심 성과 지표 (업무 목표)
+→ KPIs 설정 시 중점 요인은 &#x27;SMART&#x27;를 검색해보세요.
+Key performance indicators (work goals). When setting KPIs, search “SMART” for key criteria.</td>
+    </tr>
+<tr data-search="kronos kronos (크로노스) 근무 계획 및 출퇴근 시간을 기록할 수 있는 타임키핑 시스템
+timekeeping system for work schedules and clock-in/clock-out records.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">KRONOS</span></td>
+      <td data-label="본래의 표현">KRONOS (크로노스)</td>
+      <td class="meaning-cell" data-label="의미">근무 계획 및 출퇴근 시간을 기록할 수 있는 타임키핑 시스템
+Timekeeping system for work schedules and clock-in/clock-out records.</td>
+    </tr>
+<tr data-search="lcd local customer delivery 지역별 고객 배송
+local customer delivery by region.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">LCD</span></td>
+      <td data-label="본래의 표현">Local Customer Delivery</td>
+      <td class="meaning-cell" data-label="의미">지역별 고객 배송
+Local customer delivery by region.</td>
+    </tr>
+<tr data-search="lmc labor management council 노사협의회
+labor-management council.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">LMC</span></td>
+      <td data-label="본래의 표현">LABOR MANAGEMENT COUNCIL</td>
+      <td class="meaning-cell" data-label="의미">노사협의회
+Labor-management council.</td>
+    </tr>
+<tr data-search="lsc local service centre
+(hub - usually tsp warehouse) 운송사 허브
+transport provider hub, usually a tsp warehouse.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">LSC</span></td>
+      <td data-label="본래의 표현">Local Service Centre
+(Hub - usually TSP warehouse)</td>
+      <td class="meaning-cell" data-label="의미">운송사 허브
+Transport provider hub, usually a TSP warehouse.</td>
+    </tr>
+<tr data-search="lwc living with children 아이들과 함께 생활하기
+living with children.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">LWC</span></td>
+      <td data-label="본래의 표현">Living with children</td>
+      <td class="meaning-cell" data-label="의미">아이들과 함께 생활하기
+Living with children.</td>
+    </tr>
+<tr data-search="mcm multi channel customer(contact) management system 다중 채널 고객/연락 관리 시스템
+multi-channel customer/contact management system.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">MCM</span></td>
+      <td data-label="본래의 표현">Multi channel Customer(Contact) Management system</td>
+      <td class="meaning-cell" data-label="의미">다중 채널 고객/연락 관리 시스템
+Multi-channel customer/contact management system.</td>
+    </tr>
+<tr data-search="mctp multichannel 이커머스를 포함한 멀티채널
+multichannel including e-commerce.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">MCTP</span></td>
+      <td data-label="본래의 표현">Multichannel</td>
+      <td class="meaning-cell" data-label="의미">이커머스를 포함한 멀티채널
+Multichannel including e-commerce.</td>
+    </tr>
+<tr data-search="mhs merchandise handling system 물류시스템
+merchandise handling / logistics system.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">MHS</span></td>
+      <td data-label="본래의 표현">Merchandise Handling System</td>
+      <td class="meaning-cell" data-label="의미">물류시스템
+Merchandise handling / logistics system.</td>
+    </tr>
+<tr data-search="mr market relevance 시장 관련성
+market relevance.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">MR</span></td>
+      <td data-label="본래의 표현">Market relevance</td>
+      <td class="meaning-cell" data-label="의미">시장 관련성
+Market relevance.</td>
+    </tr>
+<tr data-search="n/a non available 사용 불가 (엑셀 등에서 사용되는 표현)
+not available; expression used in excel, etc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">N/A</span></td>
+      <td data-label="본래의 표현">Non Available</td>
+      <td class="meaning-cell" data-label="의미">사용 불가 (엑셀 등에서 사용되는 표현)
+Not available; expression used in Excel, etc.</td>
+    </tr>
+<tr data-search="nlp new lower price 더 낮아진 새로운 가격
+new lower price.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">NLP</span></td>
+      <td data-label="본래의 표현">New Lower Price</td>
+      <td class="meaning-cell" data-label="의미">더 낮아진 새로운 가격
+New lower price.</td>
+    </tr>
+<tr data-search="nps net promoter score (customer satisfaction survey) 순 추천고객 지수 (고객 로열티를 측정하는 방법) =&gt; 고객 만족도 조사
+net promoter score; measure of customer loyalty, used as a customer satisfaction survey.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">NPS</span></td>
+      <td data-label="본래의 표현">Net Promoter Score (Customer satisfaction survey)</td>
+      <td class="meaning-cell" data-label="의미">순 추천고객 지수 (고객 로열티를 측정하는 방법) =&gt; 고객 만족도 조사
+Net Promoter Score; measure of customer loyalty, used as a customer satisfaction survey.</td>
+    </tr>
+<tr data-search="nvac non value adding contacts 손님이 스스로 정보를 찾을 수 있어 csc로 인입되지 않아도 되는 콜
+non-value-adding contacts: calls customers could avoid by finding information themselves, without contacting csc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">NVAC</span></td>
+      <td data-label="본래의 표현">Non Value Adding Contacts</td>
+      <td class="meaning-cell" data-label="의미">손님이 스스로 정보를 찾을 수 있어 CSC로 인입되지 않아도 되는 콜
+Non-value-adding contacts: calls customers could avoid by finding information themselves, without contacting CSC.</td>
+    </tr>
+<tr data-search="ops operations team (csc 부서) 오퍼레이션팀-옵스팀
+operations team / ops team (csc department).">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">OPS</span></td>
+      <td data-label="본래의 표현">Operations Team</td>
+      <td class="meaning-cell" data-label="의미">(CSC 부서) 오퍼레이션팀-옵스팀
+Operations team / Ops team (CSC department).</td>
+    </tr>
+<tr data-search="oyl organize your living 생활 정리하기
+organize your living.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">OYL</span></td>
+      <td data-label="본래의 표현">Organize your living</td>
+      <td class="meaning-cell" data-label="의미">생활 정리하기
+Organize your living.</td>
+    </tr>
+<tr data-search="p&amp;d performance and development 업무 성과 및 개발
+performance and development.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">P&amp;D</span></td>
+      <td data-label="본래의 표현">Performance and Development</td>
+      <td class="meaning-cell" data-label="의미">업무 성과 및 개발
+Performance and development.</td>
+    </tr>
+<tr data-search="pdoc (product information database - specification, drawing, label, package request etc.) pia facts보다 더 자세한 제품정보를 확인할 수 있는 사이트 (도면 등)
+product information database; site for more detailed product information than pia facts, including drawings.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">PDOC</span></td>
+      <td data-label="본래의 표현">(Product information database - Specification, Drawing, Label, Package Request etc.)</td>
+      <td class="meaning-cell" data-label="의미">PIA Facts보다 더 자세한 제품정보를 확인할 수 있는 사이트 (도면 등)
+Product information database; site for more detailed product information than PIA Facts, including drawings.</td>
+    </tr>
+<tr data-search="pia facts product information assistance
+(product basic information database) irw(ikea 웹사이트)보다 조금 더 자세한 제품정보를 확인할 수 있는 사이트
+product basic information database; site with slightly more detailed product information than irw/ikea website.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">PIA Facts</span></td>
+      <td data-label="본래의 표현">Product Information Assistance
+(Product basic information database)</td>
+      <td class="meaning-cell" data-label="의미">IRW(IKEA 웹사이트)보다 조금 더 자세한 제품정보를 확인할 수 있는 사이트
+Product basic information database; site with slightly more detailed product information than IRW/IKEA website.</td>
+    </tr>
+<tr data-search="pip product information page ikea의 공식 웹사이트의 제품 정보 페이지
+product information page on ikea’s official website.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">PIP</span></td>
+      <td data-label="본래의 표현">Product Information Page</td>
+      <td class="meaning-cell" data-label="의미">IKEA의 공식 웹사이트의 제품 정보 페이지
+Product information page on IKEA’s official website.</td>
+    </tr>
+<tr data-search="pma primary market area 1차 시장 지역
+primary market area.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">PMA</span></td>
+      <td data-label="본래의 표현">Primary Market Area</td>
+      <td class="meaning-cell" data-label="의미">1차 시장 지역
+Primary market area.</td>
+    </tr>
+<tr data-search="pon parts out from new 새 상품에서 부품/파트를 발췌하여 발송 시의 업무 흐름(wf)
+workflow for taking parts from a new product and sending them.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">PON</span></td>
+      <td data-label="본래의 표현">Parts Out from New</td>
+      <td class="meaning-cell" data-label="의미">새 상품에서 부품/파트를 발췌하여 발송 시의 업무 흐름(WF)
+Workflow for taking parts from a new product and sending them.</td>
+    </tr>
+<tr data-search="pos point of sales 계산대 (판매시점 정보관리시스템)
+point of sale; checkout / sales-point information management system.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">POS</span></td>
+      <td data-label="본래의 표현">Point of Sales</td>
+      <td class="meaning-cell" data-label="의미">계산대 (판매시점 정보관리시스템)
+Point of Sale; checkout / sales-point information management system.</td>
+    </tr>
+<tr data-search="p-tag price tag 제품에 부착된 가격, 규격, 색상 등이 표기된 태그
+price tag attached to a product showing price, dimensions/specs, color, etc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">P-Tag</span></td>
+      <td data-label="본래의 표현">Price Tag</td>
+      <td class="meaning-cell" data-label="의미">제품에 부착된 가격, 규격, 색상 등이 표기된 태그
+Price tag attached to a product showing price, dimensions/specs, color, etc.</td>
+    </tr>
+<tr data-search="q quality 퀄리티
+관련 용어: q-news, q-alarm, quality report (q report) 등
+quality; related terms include q-news, q-alarm, quality report (q report), etc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">Q</span></td>
+      <td data-label="본래의 표현">Quality</td>
+      <td class="meaning-cell" data-label="의미">퀄리티
+관련 용어: Q-News, Q-Alarm, Quality report (Q report) 등
+Quality; related terms include Q-News, Q-Alarm, Quality report (Q report), etc.</td>
+    </tr>
+<tr data-search="qa quality assurance 상담 품질
+quality assurance; consultation/contact quality.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">QA</span></td>
+      <td data-label="본래의 표현">Quality Assurance</td>
+      <td class="meaning-cell" data-label="의미">상담 품질
+Quality assurance; consultation/contact quality.</td>
+    </tr>
+<tr data-search="quant quant marketing - ikea family co-worker tool 이케아 패밀리 멤버 정보관리를 코워커 툴
+co-worker tool for managing ikea family member information.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">QUANT</span></td>
+      <td data-label="본래의 표현">Quant marketing - IKEA FAMILY Co-worker tool</td>
+      <td class="meaning-cell" data-label="의미">이케아 패밀리 멤버 정보관리를 코워커 툴
+Co-worker tool for managing IKEA Family member information.</td>
+    </tr>
+<tr data-search="r&amp;e return and exchange 교환환불팀
+return and exchange team.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">R&amp;E</span></td>
+      <td data-label="본래의 표현">Return and Exchange</td>
+      <td class="meaning-cell" data-label="의미">교환환불팀
+Return and Exchange team.</td>
+    </tr>
+<tr data-search="rfc reason for contact 고객이 어떤 문의로 csc에 연락했는지 입력하는 값들
+values/fields used to record the customer’s reason for contacting csc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">RFC</span></td>
+      <td data-label="본래의 표현">Reason For Contact</td>
+      <td class="meaning-cell" data-label="의미">고객이 어떤 문의로 CSC에 연락했는지 입력하는 값들
+Values/fields used to record the customer’s reason for contacting CSC.</td>
+    </tr>
+<tr data-search="rfi request for information 정보 요구
+request for information.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">RFI</span></td>
+      <td data-label="본래의 표현">Request For Information</td>
+      <td class="meaning-cell" data-label="의미">정보 요구
+Request for information.</td>
+    </tr>
+<tr data-search="rts real time solution csc 업무 자동화 솔루션
+csc work automation solution.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">RTS</span></td>
+      <td data-label="본래의 표현">Real Time Solution</td>
+      <td class="meaning-cell" data-label="의미">CSC 업무 자동화 솔루션
+CSC work automation solution.</td>
+    </tr>
+<tr data-search="s/o spare parts out 예비부품/파트 발송 시의 업무 흐름(wf)
+workflow for sending spare parts.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">S/O</span></td>
+      <td data-label="본래의 표현">Spare parts Out</td>
+      <td class="meaning-cell" data-label="의미">예비부품/파트 발송 시의 업무 흐름(WF)
+Workflow for sending spare parts.</td>
+    </tr>
+<tr data-search="sac sams action case sams를 통해 생성된 케이스
+case created through sams.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SAC</span></td>
+      <td data-label="본래의 표현">Sams Action Case</td>
+      <td class="meaning-cell" data-label="의미">SAMS를 통해 생성된 케이스
+Case created through SAMS.</td>
+    </tr>
+<tr data-search="sälja sälja – the mobile sales co-worker tool 셀리아 - 고객 주문용 태블릿
+sälja, a tablet/mobile sales tool for customer orders.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SÄLJA</span></td>
+      <td data-label="본래의 표현">SÄLJA – the mobile sales co-worker tool</td>
+      <td class="meaning-cell" data-label="의미">셀리아 - 고객 주문용 태블릿
+SÄLJA, a tablet/mobile sales tool for customer orders.</td>
+    </tr>
+<tr data-search="sams service action management system
+(the system used by most ikea stores for tracking customer service claims) 교환/반품 등의 고객 서비스를 진행시킬 수 있는 프로그램
+system used to process customer services such as exchanges/returns and track service claims.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SAMS</span></td>
+      <td data-label="본래의 표현">Service Action Management System
+(the system used by most IKEA stores for tracking customer service claims)</td>
+      <td class="meaning-cell" data-label="의미">교환/반품 등의 고객 서비스를 진행시킬 수 있는 프로그램
+System used to process customer services such as exchanges/returns and track service claims.</td>
+    </tr>
+<tr data-search="sbf service business fulfilment -
+service business fulfilment.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SBF</span></td>
+      <td data-label="본래의 표현">Service Business Fulfilment</td>
+      <td class="meaning-cell" data-label="의미">-
+Service Business Fulfilment.</td>
+    </tr>
+<tr data-search="shc safety and health committee 산업안전위원회
+safety and health committee.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SHC</span></td>
+      <td data-label="본래의 표현">Safety and Health Committee</td>
+      <td class="meaning-cell" data-label="의미">산업안전위원회
+Safety and Health Committee.</td>
+    </tr>
+<tr data-search="sisan store in shape as new 고객을 만날 수 있는 상태로 늘 스토어를 정비하자
+having the ikea store in shape as new every day is a basic condition for a positive meeting with visitors. clean and in perfect condition gives our customer a good quality impression.
+keep the store in a condition ready to meet customers. keeping the ikea store “in shape as new” every day is basic for positive customer meetings; a clean, perfect condition gives customers a quality impression.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SISAN</span></td>
+      <td data-label="본래의 표현">Store In Shape As New</td>
+      <td class="meaning-cell" data-label="의미">고객을 만날 수 있는 상태로 늘 스토어를 정비하자
+Having the IKEA store in shape as new every day is a basic condition for a positive meeting with visitors. Clean and in perfect condition gives our customer a good quality impression.
+Keep the store in a condition ready to meet customers. Keeping the IKEA store “in shape as new” every day is basic for positive customer meetings; a clean, perfect condition gives customers a quality impression.</td>
+    </tr>
+<tr data-search="so service office 서비스 오피스
+service office.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SO</span></td>
+      <td data-label="본래의 표현">Service Office</td>
+      <td class="meaning-cell" data-label="의미">서비스 오피스
+Service Office.</td>
+    </tr>
+<tr data-search="sp staff planning team (csc 부서)
+staff planning team (csc department).">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SP</span></td>
+      <td data-label="본래의 표현">Staff Planning Team</td>
+      <td class="meaning-cell" data-label="의미">(CSC 부서)
+Staff Planning team (CSC department).</td>
+    </tr>
+<tr data-search="sp service provider 부가서비스 제공 업체 (ikea 협력사)
+service provider; ikea partner providing additional services.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SP</span></td>
+      <td data-label="본래의 표현">Service Provider</td>
+      <td class="meaning-cell" data-label="의미">부가서비스 제공 업체 (IKEA 협력사)
+Service provider; IKEA partner providing additional services.</td>
+    </tr>
+<tr data-search="spartacus spartacus 스파르타쿠스 - 부품,파트 재고 확인시스템
+spartacus; spare-part/part stock checking system.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SPARTACUS</span></td>
+      <td data-label="본래의 표현">SPARTACUS</td>
+      <td class="meaning-cell" data-label="의미">스파르타쿠스 - 부품,파트 재고 확인시스템
+SPARTACUS; spare-part/part stock checking system.</td>
+    </tr>
+<tr data-search="spartacus spartacus 스파르타쿠스 - 부품,파트 재고 확인시스템
+spartacus; spare-part/part stock checking system.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SPARTACUS</span></td>
+      <td data-label="본래의 표현">SPARTACUS</td>
+      <td class="meaning-cell" data-label="의미">스파르타쿠스 - 부품,파트 재고 확인시스템
+SPARTACUS; spare-part/part stock checking system.</td>
+    </tr>
+<tr data-search="ss safety stock additional stock required to compensate for forecast, sales and lead time deviations.
+stock holding required above turnover stock to increase availability during unpredictable fluctuations in lead time or sales.
+safety stock; additional stock kept to compensate for forecast, sales, and lead-time deviations, and to increase availability during unpredictable fluctuations.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SS</span></td>
+      <td data-label="본래의 표현">Safety Stock</td>
+      <td class="meaning-cell" data-label="의미">Additional stock required to compensate for forecast, sales and lead time deviations.
+Stock holding required above turnover stock to increase availability during unpredictable fluctuations in lead time or sales.
+Safety stock; additional stock kept to compensate for forecast, sales, and lead-time deviations, and to increase availability during unpredictable fluctuations.</td>
+    </tr>
+<tr data-search="ssc ssc (askssc) hr관련 직원 헬프라인 (080-080 4532 / askssc.kr@ikea.com)
+hr-related employee helpline.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SSC</span></td>
+      <td data-label="본래의 표현">SSC (AskSSC)</td>
+      <td class="meaning-cell" data-label="의미">HR관련 직원 헬프라인 (080-080 4532 / askssc.kr@ikea.com)
+HR-related employee helpline.</td>
+    </tr>
+<tr data-search="ssl small space living 작은 공간 생활
+small space living.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SSL</span></td>
+      <td data-label="본래의 표현">Small space living</td>
+      <td class="meaning-cell" data-label="의미">작은 공간 생활
+Small space living.</td>
+    </tr>
+<tr data-search="sss service and sales support team (csc 부서)
+service and sales support team (csc department).">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SSS</span></td>
+      <td data-label="본래의 표현">Service and Sales Support Team</td>
+      <td class="meaning-cell" data-label="의미">(CSC 부서)
+Service and Sales Support Team (CSC department).</td>
+    </tr>
+<tr data-search="sss sale supply support 트리플s - 재고관리 등을 하는 부서
+sss; department in charge of stock management, etc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SSS</span></td>
+      <td data-label="본래의 표현">Sale Supply Support</td>
+      <td class="meaning-cell" data-label="의미">트리플S - 재고관리 등을 하는 부서
+SSS; department in charge of stock management, etc.</td>
+    </tr>
+<tr data-search="sto store office 매장 오피스
+store office.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">STO</span></td>
+      <td data-label="본래의 표현">Store Office</td>
+      <td class="meaning-cell" data-label="의미">매장 오피스
+Store Office.</td>
+    </tr>
+<tr data-search="store order store order 스토어 오더 - 매장에서 ccd 오더를 생성하여 cdc에서 진행되는 오더
+store order; an order created at the store as a ccd order and processed at cdc.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">Store order</span></td>
+      <td data-label="본래의 표현">Store order</td>
+      <td class="meaning-cell" data-label="의미">스토어 오더 - 매장에서 CCD 오더를 생성하여 CDC에서 진행되는 오더
+Store order; an order created at the store as a CCD order and processed at CDC.</td>
+    </tr>
+<tr data-search="sup no. supplier number 공급자 번호
+supplier number.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">SUP NO.</span></td>
+      <td data-label="본래의 표현">Supplier Number</td>
+      <td class="meaning-cell" data-label="의미">공급자 번호
+Supplier number.</td>
+    </tr>
+<tr data-search="tba to be announced 추후 공지
+to be announced.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TBA</span></td>
+      <td data-label="본래의 표현">To Be Announced</td>
+      <td class="meaning-cell" data-label="의미">추후 공지
+To be announced.</td>
+    </tr>
+<tr data-search="tbd to be determined(decided) 추후 결정 (현재 미정)
+to be determined/decided; currently undecided.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TBD</span></td>
+      <td data-label="본래의 표현">To Be Determined(Decided)</td>
+      <td class="meaning-cell" data-label="의미">추후 결정 (현재 미정)
+To be determined/decided; currently undecided.</td>
+    </tr>
+<tr data-search="tid terminal id 매장 단말기 및 영수증 바코드 번호
+store terminal id and receipt barcode number.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TID</span></td>
+      <td data-label="본래의 표현">Terminal ID</td>
+      <td class="meaning-cell" data-label="의미">매장 단말기 및 영수증 바코드 번호
+Store terminal ID and receipt barcode number.</td>
+    </tr>
+<tr data-search="tro time restricted offer 기간한정할인상품
+time-restricted offer; limited-time discounted product.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TRO</span></td>
+      <td data-label="본래의 표현">Time restricted offer</td>
+      <td class="meaning-cell" data-label="의미">기간한정할인상품
+Time-restricted offer; limited-time discounted product.</td>
+    </tr>
+<tr data-search="tsp transport ikea와 계약된 배송협력업체(운송사) 또는, csc tsp팀
+transport service provider contracted with ikea, or csc tsp team.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TSP</span></td>
+      <td data-label="본래의 표현">Transport</td>
+      <td class="meaning-cell" data-label="의미">IKEA와 계약된 배송협력업체(운송사) 또는, CSC TSP팀
+Transport service provider contracted with IKEA, or CSC TSP team.</td>
+    </tr>
+<tr data-search="tt310 decoration withdrawal products taken for sales displays
+(responsible: communication &amp; interior design)
+products taken for sales displays. responsible: communication &amp; interior design.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT310</span></td>
+      <td data-label="본래의 표현">Decoration withdrawal</td>
+      <td class="meaning-cell" data-label="의미">Products taken for sales displays
+(Responsible: Communication &amp; Interior Design)
+Products taken for sales displays. Responsible: Communication &amp; Interior Design.</td>
+    </tr>
+<tr data-search="tt325 customer returns to recovery damaged products returned by customers
+(responsible: sales)
+damaged products returned by customers. responsible: sales.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT325</span></td>
+      <td data-label="본래의 표현">Customer returns to Recovery</td>
+      <td class="meaning-cell" data-label="의미">Damaged products returned by customers
+(Responsible: Sales)
+Damaged products returned by customers. Responsible: Sales.</td>
+    </tr>
+<tr data-search="tt330 quality claims decreases in stock for q-products awaiting a decision
+(responsible: recovery)
+stock decreases for q-products awaiting a decision. responsible: recovery.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT330</span></td>
+      <td data-label="본래의 표현">Quality claims</td>
+      <td class="meaning-cell" data-label="의미">Decreases in stock for Q-products awaiting a decision
+(Responsible: Recovery)
+Stock decreases for Q-products awaiting a decision. Responsible: Recovery.</td>
+    </tr>
+<tr data-search="tt390 internal damages to recovery products damaged in the store
+(responsible: in-store logistics)
+products damaged in store. responsible: in-store logistics.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT390</span></td>
+      <td data-label="본래의 표현">Internal damages to Recovery</td>
+      <td class="meaning-cell" data-label="의미">Products damaged in the store
+(Responsible: In-Store Logistics)
+Products damaged in store. Responsible: In-Store Logistics.</td>
+    </tr>
+<tr data-search="tt391 received damages to recovery products damaged on delivery
+(responsible: in-store logistics)
+products damaged during delivery. responsible: in-store logistics.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT391</span></td>
+      <td data-label="본래의 표현">Received damages to Recovery</td>
+      <td class="meaning-cell" data-label="의미">Products damaged on delivery
+(Responsible: In-Store Logistics)
+Products damaged during delivery. Responsible: In-Store Logistics.</td>
+    </tr>
+<tr data-search="tt440 undamaged and q-products recovery q-products or last pieces/outgoing products handed over to recovery
+(responsible: sales)
+q-products or last pieces/outgoing products handed over to recovery. responsible: sales.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT440</span></td>
+      <td data-label="본래의 표현">Undamaged and Q-products Recovery</td>
+      <td class="meaning-cell" data-label="의미">Q-products or last pieces/outgoing products handed over to Recovery
+(Responsible: Sales)
+Q-products or last pieces/outgoing products handed over to Recovery. Responsible: Sales.</td>
+    </tr>
+<tr data-search="tt441 inventory adjustment decreasing stock. set products etc.
+(responsible: business &amp; operations manager)
+stock decrease such as set products, etc. responsible: business &amp; operations manager.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT441</span></td>
+      <td data-label="본래의 표현">Inventory adjustment</td>
+      <td class="meaning-cell" data-label="의미">Decreasing stock. Set products etc.
+(Responsible: Business &amp; Operations Manager)
+Stock decrease such as set products, etc. Responsible: Business &amp; Operations Manager.</td>
+    </tr>
+<tr data-search="tt450 recovery to stock products recovered to stock
+(responsible: recovery)
+products returned/recovered to stock. responsible: recovery.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT450</span></td>
+      <td data-label="본래의 표현">Recovery to stock</td>
+      <td class="meaning-cell" data-label="의미">Products recovered to stock
+(Responsible: Recovery)
+Products returned/recovered to stock. Responsible: Recovery.</td>
+    </tr>
+<tr data-search="tt456 permanent inventory stock figure decreases throughout the fiscal year
+(responsible: business &amp; operations manager)
+stock figure decreases throughout the fiscal year. responsible: business &amp; operations manager.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT456</span></td>
+      <td data-label="본래의 표현">Permanent inventory</td>
+      <td class="meaning-cell" data-label="의미">Stock figure decreases throughout the fiscal year
+(Responsible: Business &amp; Operations Manager)
+Stock figure decreases throughout the fiscal year. Responsible: Business &amp; Operations Manager.</td>
+    </tr>
+<tr data-search="tt457 annual inventory stock figure decrease after the annual inventory
+(responsible: business &amp; operations manager)
+stock figure decrease after annual inventory. responsible: business &amp; operations manager.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TT457</span></td>
+      <td data-label="본래의 표현">Annual inventory</td>
+      <td class="meaning-cell" data-label="의미">Stock figure decrease after the annual inventory
+(Responsible: Business &amp; Operations Manager)
+Stock figure decrease after annual inventory. Responsible: Business &amp; Operations Manager.</td>
+    </tr>
+<tr data-search="tw time window 서비스 제공 시간대
+service time window.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">TW</span></td>
+      <td data-label="본래의 표현">Time Window</td>
+      <td class="meaning-cell" data-label="의미">서비스 제공 시간대
+Service time window.</td>
+    </tr>
+<tr data-search="utg swedish word &quot;utgående&quot;.
+utgående can be translated to discontinued in english. a product that will be or has been taken out of the ikea range.
+discontinued = 판매 종료(단종) 제품
+swedish word “utgående,” translated as “discontinued.” a product that will be or has been taken out of the ikea range; discontinued product.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">UTG</span></td>
+      <td data-label="본래의 표현">Swedish word &quot;Utgående&quot;.
+Utgående can be translated to Discontinued in English.</td>
+      <td class="meaning-cell" data-label="의미">A product that will be or has been taken out of the IKEA range.
+Discontinued = 판매 종료(단종) 제품
+Swedish word “Utgående,” translated as “Discontinued.” A product that will be or has been taken out of the IKEA range; discontinued product.</td>
+    </tr>
+<tr data-search="voice voice 직원만족도 조사
+employee satisfaction survey.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">VOICE</span></td>
+      <td data-label="본래의 표현">VOICE</td>
+      <td class="meaning-cell" data-label="의미">직원만족도 조사
+Employee satisfaction survey.</td>
+    </tr>
+<tr data-search="wf work flow sac을 진행하는 흐름
+workflow for processing sac.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">WF</span></td>
+      <td data-label="본래의 표현">Work Flow</td>
+      <td class="meaning-cell" data-label="의미">SAC을 진행하는 흐름
+Workflow for processing SAC.</td>
+    </tr>
+<tr data-search="wfm workforce management 인력 매니지먼트 (스케줄 관리자)
+workforce management; schedule management.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">WFM</span></td>
+      <td data-label="본래의 표현">Workforce Management</td>
+      <td class="meaning-cell" data-label="의미">인력 매니지먼트 (스케줄 관리자)
+Workforce management; schedule management.</td>
+    </tr>
+<tr data-search="wk week (달력) 주 차수
+calendar week number.">
+      <td class="term-cell" data-label="약자 / 용어"><span class="term">WK</span></td>
+      <td data-label="본래의 표현">Week</td>
+      <td class="meaning-cell" data-label="의미">(달력) 주 차수
+Calendar week number.</td>
+    </tr>
+        </tbody>
       </table>
     </section>
-    <div class="empty" id="empty">검색 결과가 없습니다. 다른 단어로 검색해보세요.</div>
-    <footer>Tip. 검색어를 입력한 뒤 Enter 키를 눌러도 검색됩니다.</footer>
+    <div class="empty" id="empty">검색 결과가 없습니다.</div>
   </main>
 
   <script>
-    const glossary = [{"term": "ACI", "expression": "A tool for online payment, used to view transactions in real time, extract reconciliation reports, view statistics and make refunds.", "meaning": "e-Com 오더의 거래내역 또는 돌&환불 진행\nTool for viewing e-Com order transaction history and handling exchanges/refunds."}, {"term": "ACW", "expression": "After Call Work", "meaning": "전화상담 후처리 업무\nPost-call work after a phone consultation."}, {"term": "AHT", "expression": "Average Handling Time", "meaning": "평균 처리 시간\nAverage time required to handle a case/contact."}, {"term": "APP", "expression": "Application", "meaning": "스마트폰의 앱(애플리케이션) - IKEA Store 모바일 앱\nSmartphone application; IKEA Store mobile app."}, {"term": "ASA", "expression": "Average Speed of Answer", "meaning": "평균 응답 속도\nAverage speed at which calls/contacts are answered."}, {"term": "ASR", "expression": "Administration Support Retail", "meaning": ""}, {"term": "ATT", "expression": "Average Talk Time", "meaning": "평균 통화 시간\nAverage time spent talking on a call."}, {"term": "BNO", "expression": "Business Navigation and Operation", "meaning": "스태프 플래닝(스케줄), 예산, 진행 컨트롤, 건물 유지보수, 리커버리팀 등\nStaff planning (schedules), budgets, process/control, building maintenance, Recovery team, etc."}, {"term": "BS", "expression": "Business Service Team", "meaning": "(CSC 부서)\nCSC department."}, {"term": "BU", "expression": "Business Unit", "meaning": "비즈니스 유닛 (Store, CDC, CSC, SO 등과 같은 사업의 큰 단위)\nBusiness unit; a large business unit such as Store, CDC, CSC, SO, etc."}, {"term": "C3WEB", "expression": "Centiro", "meaning": "배송 관련 프로그램 이름 (CSC TSPE에서 주로 사용)\nName of a delivery-related program, mainly used in CSC TSPE."}, {"term": "CCD", "expression": "Central Customer Delivery\n(Delivery Service from Central Warehouse to a customer)", "meaning": "중앙 고객 배송 (CDC를 통해 이루어지는 배송=이커머스 배송)\nCentral customer delivery; delivery from CDC/central warehouse to customer, i.e., e-commerce delivery."}, {"term": "CDA", "expression": "-", "meaning": "전략적 주요 지역\nStrategic key area."}, {"term": "CDC", "expression": "Customer Distribution Centre", "meaning": "중앙 물류창고\nCentral distribution center/warehouse."}, {"term": "CDOS", "expression": "Customer Distribution Order Service", "meaning": "CCD 재고 및 제품 등을 관리하는 부서\nDepartment that manages CCD stock and products."}, {"term": "CDU", "expression": "Customer Distribution Unit", "meaning": "CDC에서 픽킹 되는 단위\nUnit picked at CDC."}, {"term": "ChatPH", "expression": "Chat per Hour", "meaning": "시간당 채팅 처리 수\nNumber of chats handled per hour."}, {"term": "COM&IN", "expression": "Communication and Interior design", "meaning": "디자인팀\nDesign team."}, {"term": "CPH", "expression": "Call Per Hour", "meaning": "시간당 콜 처리 수\nNumber of calls handled per hour."}, {"term": "CPU", "expression": "Central Parcel Unit", "meaning": "택배 제품 유닛\nParcel-product unit."}, {"term": "CR", "expression": "Customer Resolution Team", "meaning": "(CSC 부서)\nCSC department."}, {"term": "CR", "expression": "Customer Relations", "meaning": "고객지원팀\nCustomer Relations / customer support team."}, {"term": "CRM", "expression": "Customer Relations Management", "meaning": "고객관계관리\nCustomer relationship management."}, {"term": "CSC", "expression": "Customer Support Centre", "meaning": "고객지원센터\nCustomer Support Centre."}, {"term": "CWIS", "expression": "Common Warehouse Information Service.\n(New warehouse platform that replaces ViCO)", "meaning": "CDC 운영 관련 시스템\nCDC operations-related system."}, {"term": "CY", "expression": "Calendar Year", "meaning": "달력 상의 1년 (매년 1월~12월)\nCalendar year (January to December)."}, {"term": "Democratic Design", "expression": "Low cost, Design, Quality, and Sustainability", "meaning": "저렴한 비용, 디자인, 품질 및 지속가능성\nLow cost, design, quality and sustainability."}, {"term": "DS", "expression": "Date Stamp", "meaning": "제조 시기\nManufacturing date/production period."}, {"term": "eComm", "expression": "e-Commerce", "meaning": "이커머스 = 전자상거래 = 온라인 몰\nE-commerce; online store."}, {"term": "eIRW", "expression": "enhanced IKEA Retail Website", "meaning": "이커머스 기능이 포함된 IKEA 공식 웹사이트 (접속 주소 등이 똑같아서 코워커는 굳이 IRW와 구분하여 표현하지 않아도 됨)\nIKEA official website with e-commerce functions; co-workers do not usually need to distinguish it from IRW because the access address is the same."}, {"term": "EPH", "expression": "Email Per Hour", "meaning": "시간당 이메일 처리 수\nNumber of emails handled per hour."}, {"term": "ESP", "expression": "External Service Provider (CDC operation)", "meaning": "CDC운영관리\nExternal provider managing CDC operations."}, {"term": "ESS", "expression": "Employee Self Service", "meaning": "급여 조회 사이트\nEmployee self-service site for payroll lookup."}, {"term": "EVEX", "expression": "Even Exchange", "meaning": "Home Delivery, 또는 기타 사유에 의해서 배송되었던 상품에 하자, 오류가 있었을 경우 Self-serve에서 picking 하여 Home-Delivery에 넘겨주는 업무로서 해당 case가 발생시 RDT에서 EVEX리스트를 확인하고, Picking 상품을 스캔 후 Hand-over하면 된다.\nEven exchange process for items delivered by Home Delivery or for other reasons when a defect/error exists; pick in Self-serve, hand over to Home Delivery. Check the EVEX list in RDT, scan picked items, then hand over."}, {"term": "FCR", "expression": "First Call Resolution", "meaning": "첫 번째 전화연결에서 해결\nResolving the issue on the first call."}, {"term": "First 5", "expression": "First 5 Room setting", "meaning": "IKEA의 Business Plan과 Priority를 상징적으로 나타낸다. 그 중 1개의 Room은 complete price를 가지는 형태이며 (주로) 해당 국가의 co-worker salary수준의 가격대로 구성하는 것이 일반적이다.\nSymbolically shows IKEA’s Business Plan and priorities. One room usually has a complete price and is typically set at a price level aligned with co-worker salary levels in that country."}, {"term": "FS", "expression": "Full Serve", "meaning": "풀서브\nFull serve."}, {"term": "FSHO", "expression": "Full Serve Handout", "meaning": "풀서브핸드아웃\nFull Serve Handout."}, {"term": "FY", "expression": "Financial Year (Fiscal Year)", "meaning": "회계 년도 (매년 9월 1일 ~ 차년도 8월 31일)\nFiscal year (Sept. 1 to Aug. 31 of the following year)."}, {"term": "FYA", "expression": "For Your Action", "meaning": "당신의 행동을 위해\nFor your action; action required from you."}, {"term": "FYI", "expression": "For Your Information", "meaning": "당신의 정보를 위해\nFor your information."}, {"term": "FYR", "expression": "For Your Reference", "meaning": "참고하세요\nFor your reference."}, {"term": "Go-With", "expression": "Go-With", "meaning": "노사협의회 명칭 (gowith.kr@ikea.com)\nName of the labor-management council."}, {"term": "GWI", "expression": "Growth with impact", "meaning": "IKEA의 해당 회계년도 주요 사업목표 (중점 사업분야)\nIKEA’s main business goal/focus area for the fiscal year."}, {"term": "Hassle free", "expression": "Hassle free", "meaning": "번거로움이 없는 단순한 과정 (단순 교환환불 정책과 절차)\nSimple, hassle-free process; simple exchange/refund policy and procedure."}, {"term": "HD", "expression": "Home Delivery", "meaning": "홈딜리버리\nHome delivery."}, {"term": "HR", "expression": "Human Resource", "meaning": "인사팀\nHuman Resources."}, {"term": "HUTI", "expression": "Help Us To Improve", "meaning": "고객만족도 조사 시스템 (매장 설치, 고객이 의견을 남길 수 있는 키오스크 기기)\nCustomer satisfaction survey system; in-store kiosk where customers can leave feedback."}, {"term": "ico-worker", "expression": "ico-worker (아이코워커)", "meaning": "이케아 내/외부 모두에서 접속 가능한 코워커 지원 도구\nCo-worker support tool accessible both inside and outside IKEA."}, {"term": "ICSS", "expression": "IKEA Customer Satisfaction Survey", "meaning": "고객만족도 조사\nCustomer satisfaction survey."}, {"term": "IF", "expression": "IKEA FOOD", "meaning": "푸드팀\nIKEA Food team."}, {"term": "ININ", "expression": "Interaction Desktop (program)", "meaning": "Interaction Desktop 프로그램의 회사 (Interactive Intelligence)\n※ CSC에서 습관적으로 Interaction Desktop 프로그램 자체를 지칭함\nCompany behind Interaction Desktop (Interactive Intelligence); in CSC it commonly refers to the Interaction Desktop program itself."}, {"term": "IoS", "expression": "IKEA of Sweden", "meaning": "스웨덴 본사\nIKEA of Sweden / headquarters in Sweden."}, {"term": "IRW", "expression": "IKEA Retail Website", "meaning": "IKEA의 공식 웹사이트\nIKEA official website."}, {"term": "ISELL", "expression": "(The sales and service application)", "meaning": "상품 및 서비스 판매 프로그램\nSales and service application for selling products and services."}, {"term": "ISOM", "expression": "IKEA Sales Order Management", "meaning": "CDC에서 CCD오더가 진행될 수 있도록 운영하는 시스템\nSystem used to manage/operate CCD orders so they can be processed at CDC."}, {"term": "IVR", "expression": "Interactive Voice Response", "meaning": "대화식 음성 응답\nInteractive voice response."}, {"term": "KMI", "expression": "Knowledge Management & Insights Team", "meaning": "(CSC 부서)\nCSC department."}, {"term": "KMS", "expression": "Knowledge Management System", "meaning": "CSC 관련 업무 지식을 모아놓은 웹사이트\nWebsite that gathers CSC-related work knowledge."}, {"term": "KPIs", "expression": "Key Performance Indicator", "meaning": "핵심 성과 지표 (업무 목표)\n→ KPIs 설정 시 중점 요인은 'SMART'를 검색해보세요.\nKey performance indicators (work goals). When setting KPIs, search “SMART” for key criteria."}, {"term": "KRONOS", "expression": "KRONOS (크로노스)", "meaning": "근무 계획 및 출퇴근 시간을 기록할 수 있는 타임키핑 시스템\nTimekeeping system for work schedules and clock-in/clock-out records."}, {"term": "LCD", "expression": "Local Customer Delivery", "meaning": "지역별 고객 배송\nLocal customer delivery by region."}, {"term": "LMC", "expression": "LABOR MANAGEMENT COUNCIL", "meaning": "노사협의회\nLabor-management council."}, {"term": "LSC", "expression": "Local Service Centre\n(Hub - usually TSP warehouse)", "meaning": "운송사 허브\nTransport provider hub, usually a TSP warehouse."}, {"term": "LWC", "expression": "Living with children", "meaning": "아이들과 함께 생활하기\nLiving with children."}, {"term": "MCM", "expression": "Multi channel Customer(Contact) Management system", "meaning": "다중 채널 고객/연락 관리 시스템\nMulti-channel customer/contact management system."}, {"term": "MCTP", "expression": "Multichannel", "meaning": "이커머스를 포함한 멀티채널\nMultichannel including e-commerce."}, {"term": "MHS", "expression": "Merchandise Handling System", "meaning": "물류시스템\nMerchandise handling / logistics system."}, {"term": "MR", "expression": "Market relevance", "meaning": "시장 관련성\nMarket relevance."}, {"term": "N/A", "expression": "Non Available", "meaning": "사용 불가 (엑셀 등에서 사용되는 표현)\nNot available; expression used in Excel, etc."}, {"term": "NLP", "expression": "New Lower Price", "meaning": "더 낮아진 새로운 가격\nNew lower price."}, {"term": "NPS", "expression": "Net Promoter Score (Customer satisfaction survey)", "meaning": "순 추천고객 지수 (고객 로열티를 측정하는 방법) => 고객 만족도 조사\nNet Promoter Score; measure of customer loyalty, used as a customer satisfaction survey."}, {"term": "NVAC", "expression": "Non Value Adding Contacts", "meaning": "손님이 스스로 정보를 찾을 수 있어 CSC로 인입되지 않아도 되는 콜\nNon-value-adding contacts: calls customers could avoid by finding information themselves, without contacting CSC."}, {"term": "OPS", "expression": "Operations Team", "meaning": "(CSC 부서) 오퍼레이션팀-옵스팀\nOperations team / Ops team (CSC department)."}, {"term": "OYL", "expression": "Organize your living", "meaning": "생활 정리하기\nOrganize your living."}, {"term": "P&D", "expression": "Performance and Development", "meaning": "업무 성과 및 개발\nPerformance and development."}, {"term": "PDOC", "expression": "(Product information database - Specification, Drawing, Label, Package Request etc.)", "meaning": "PIA Facts보다 더 자세한 제품정보를 확인할 수 있는 사이트 (도면 등)\nProduct information database; site for more detailed product information than PIA Facts, including drawings."}, {"term": "PIA Facts", "expression": "Product Information Assistance\n(Product basic information database)", "meaning": "IRW(IKEA 웹사이트)보다 조금 더 자세한 제품정보를 확인할 수 있는 사이트\nProduct basic information database; site with slightly more detailed product information than IRW/IKEA website."}, {"term": "PIP", "expression": "Product Information Page", "meaning": "IKEA의 공식 웹사이트의 제품 정보 페이지\nProduct information page on IKEA’s official website."}, {"term": "PMA", "expression": "Primary Market Area", "meaning": "1차 시장 지역\nPrimary market area."}, {"term": "PON", "expression": "Parts Out from New", "meaning": "새 상품에서 부품/파트를 발췌하여 발송 시의 업무 흐름(WF)\nWorkflow for taking parts from a new product and sending them."}, {"term": "POS", "expression": "Point of Sales", "meaning": "계산대 (판매시점 정보관리시스템)\nPoint of Sale; checkout / sales-point information management system."}, {"term": "P-Tag", "expression": "Price Tag", "meaning": "제품에 부착된 가격, 규격, 색상 등이 표기된 태그\nPrice tag attached to a product showing price, dimensions/specs, color, etc."}, {"term": "Q", "expression": "Quality", "meaning": "퀄리티\n관련 용어: Q-News, Q-Alarm, Quality report (Q report) 등\nQuality; related terms include Q-News, Q-Alarm, Quality report (Q report), etc."}, {"term": "QA", "expression": "Quality Assurance", "meaning": "상담 품질\nQuality assurance; consultation/contact quality."}, {"term": "QUANT", "expression": "Quant marketing - IKEA FAMILY Co-worker tool", "meaning": "이케아 패밀리 멤버 정보관리를 코워커 툴\nCo-worker tool for managing IKEA Family member information."}, {"term": "R&E", "expression": "Return and Exchange", "meaning": "교환환불팀\nReturn and Exchange team."}, {"term": "RFC", "expression": "Reason For Contact", "meaning": "고객이 어떤 문의로 CSC에 연락했는지 입력하는 값들\nValues/fields used to record the customer’s reason for contacting CSC."}, {"term": "RFI", "expression": "Request For Information", "meaning": "정보 요구\nRequest for information."}, {"term": "RTS", "expression": "Real Time Solution", "meaning": "CSC 업무 자동화 솔루션\nCSC work automation solution."}, {"term": "S/O", "expression": "Spare parts Out", "meaning": "예비부품/파트 발송 시의 업무 흐름(WF)\nWorkflow for sending spare parts."}, {"term": "SAC", "expression": "Sams Action Case", "meaning": "SAMS를 통해 생성된 케이스\nCase created through SAMS."}, {"term": "SÄLJA", "expression": "SÄLJA – the mobile sales co-worker tool", "meaning": "셀리아 - 고객 주문용 태블릿\nSÄLJA, a tablet/mobile sales tool for customer orders."}, {"term": "SAMS", "expression": "Service Action Management System\n(the system used by most IKEA stores for tracking customer service claims)", "meaning": "교환/반품 등의 고객 서비스를 진행시킬 수 있는 프로그램\nSystem used to process customer services such as exchanges/returns and track service claims."}, {"term": "SBF", "expression": "Service Business Fulfilment", "meaning": "-\nService Business Fulfilment."}, {"term": "SHC", "expression": "Safety and Health Committee", "meaning": "산업안전위원회\nSafety and Health Committee."}, {"term": "SISAN", "expression": "Store In Shape As New", "meaning": "고객을 만날 수 있는 상태로 늘 스토어를 정비하자\nHaving the IKEA store in shape as new every day is a basic condition for a positive meeting with visitors. Clean and in perfect condition gives our customer a good quality impression.\nKeep the store in a condition ready to meet customers. Keeping the IKEA store “in shape as new” every day is basic for positive customer meetings; a clean, perfect condition gives customers a quality impression."}, {"term": "SO", "expression": "Service Office", "meaning": "서비스 오피스\nService Office."}, {"term": "SP", "expression": "Staff Planning Team", "meaning": "(CSC 부서)\nStaff Planning team (CSC department)."}, {"term": "SP", "expression": "Service Provider", "meaning": "부가서비스 제공 업체 (IKEA 협력사)\nService provider; IKEA partner providing additional services."}, {"term": "SPARTACUS", "expression": "SPARTACUS", "meaning": "스파르타쿠스 - 부품,파트 재고 확인시스템\nSPARTACUS; spare-part/part stock checking system."}, {"term": "SPARTACUS", "expression": "SPARTACUS", "meaning": "스파르타쿠스 - 부품,파트 재고 확인시스템\nSPARTACUS; spare-part/part stock checking system."}, {"term": "SS", "expression": "Safety Stock", "meaning": "Additional stock required to compensate for forecast, sales and lead time deviations.\nStock holding required above turnover stock to increase availability during unpredictable fluctuations in lead time or sales.\nSafety stock; additional stock kept to compensate for forecast, sales, and lead-time deviations, and to increase availability during unpredictable fluctuations."}, {"term": "SSC", "expression": "SSC (AskSSC)", "meaning": "HR관련 직원 헬프라인 (080-080 4532 / askssc.kr@ikea.com)\nHR-related employee helpline."}, {"term": "SSL", "expression": "Small space living", "meaning": "작은 공간 생활\nSmall space living."}, {"term": "SSS", "expression": "Service and Sales Support Team", "meaning": "(CSC 부서)\nService and Sales Support Team (CSC department)."}, {"term": "SSS", "expression": "Sale Supply Support", "meaning": "트리플S - 재고관리 등을 하는 부서\nSSS; department in charge of stock management, etc."}, {"term": "STO", "expression": "Store Office", "meaning": "매장 오피스\nStore Office."}, {"term": "Store order", "expression": "Store order", "meaning": "스토어 오더 - 매장에서 CCD 오더를 생성하여 CDC에서 진행되는 오더\nStore order; an order created at the store as a CCD order and processed at CDC."}, {"term": "SUP NO.", "expression": "Supplier Number", "meaning": "공급자 번호\nSupplier number."}, {"term": "TBA", "expression": "To Be Announced", "meaning": "추후 공지\nTo be announced."}, {"term": "TBD", "expression": "To Be Determined(Decided)", "meaning": "추후 결정 (현재 미정)\nTo be determined/decided; currently undecided."}, {"term": "TID", "expression": "Terminal ID", "meaning": "매장 단말기 및 영수증 바코드 번호\nStore terminal ID and receipt barcode number."}, {"term": "TRO", "expression": "Time restricted offer", "meaning": "기간한정할인상품\nTime-restricted offer; limited-time discounted product."}, {"term": "TSP", "expression": "Transport", "meaning": "IKEA와 계약된 배송협력업체(운송사) 또는, CSC TSP팀\nTransport service provider contracted with IKEA, or CSC TSP team."}, {"term": "TT310", "expression": "Decoration withdrawal", "meaning": "Products taken for sales displays\n(Responsible: Communication & Interior Design)\nProducts taken for sales displays. Responsible: Communication & Interior Design."}, {"term": "TT325", "expression": "Customer returns to Recovery", "meaning": "Damaged products returned by customers\n(Responsible: Sales)\nDamaged products returned by customers. Responsible: Sales."}, {"term": "TT330", "expression": "Quality claims", "meaning": "Decreases in stock for Q-products awaiting a decision\n(Responsible: Recovery)\nStock decreases for Q-products awaiting a decision. Responsible: Recovery."}, {"term": "TT390", "expression": "Internal damages to Recovery", "meaning": "Products damaged in the store\n(Responsible: In-Store Logistics)\nProducts damaged in store. Responsible: In-Store Logistics."}, {"term": "TT391", "expression": "Received damages to Recovery", "meaning": "Products damaged on delivery\n(Responsible: In-Store Logistics)\nProducts damaged during delivery. Responsible: In-Store Logistics."}, {"term": "TT440", "expression": "Undamaged and Q-products Recovery", "meaning": "Q-products or last pieces/outgoing products handed over to Recovery\n(Responsible: Sales)\nQ-products or last pieces/outgoing products handed over to Recovery. Responsible: Sales."}, {"term": "TT441", "expression": "Inventory adjustment", "meaning": "Decreasing stock. Set products etc.\n(Responsible: Business & Operations Manager)\nStock decrease such as set products, etc. Responsible: Business & Operations Manager."}, {"term": "TT450", "expression": "Recovery to stock", "meaning": "Products recovered to stock\n(Responsible: Recovery)\nProducts returned/recovered to stock. Responsible: Recovery."}, {"term": "TT456", "expression": "Permanent inventory", "meaning": "Stock figure decreases throughout the fiscal year\n(Responsible: Business & Operations Manager)\nStock figure decreases throughout the fiscal year. Responsible: Business & Operations Manager."}, {"term": "TT457", "expression": "Annual inventory", "meaning": "Stock figure decrease after the annual inventory\n(Responsible: Business & Operations Manager)\nStock figure decrease after annual inventory. Responsible: Business & Operations Manager."}, {"term": "TW", "expression": "Time Window", "meaning": "서비스 제공 시간대\nService time window."}, {"term": "UTG", "expression": "Swedish word \"Utgående\".\nUtgående can be translated to Discontinued in English.", "meaning": "A product that will be or has been taken out of the IKEA range.\nDiscontinued = 판매 종료(단종) 제품\nSwedish word “Utgående,” translated as “Discontinued.” A product that will be or has been taken out of the IKEA range; discontinued product."}, {"term": "VOICE", "expression": "VOICE", "meaning": "직원만족도 조사\nEmployee satisfaction survey."}, {"term": "WF", "expression": "Work Flow", "meaning": "SAC을 진행하는 흐름\nWorkflow for processing SAC."}, {"term": "WFM", "expression": "Workforce Management", "meaning": "인력 매니지먼트 (스케줄 관리자)\nWorkforce management; schedule management."}, {"term": "WK", "expression": "Week", "meaning": "(달력) 주 차수\nCalendar week number."}];
-    const tbody = document.getElementById('tbody');
-    const form = document.getElementById('searchForm');
-    const input = document.getElementById('searchInput');
-    const resetBtn = document.getElementById('resetBtn');
-    const statusEl = document.getElementById('status');
-    const emptyEl = document.getElementById('empty');
+    (function () {
+      var rows = Array.prototype.slice.call(document.querySelectorAll("#tbody tr"));
+      var form = document.getElementById("searchForm");
+      var input = document.getElementById("searchInput");
+      var resetBtn = document.getElementById("resetBtn");
+      var statusEl = document.getElementById("status");
+      var emptyEl = document.getElementById("empty");
+      var total = rows.length;
 
-    function escapeHtml(value) {
-      return String(value ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
-
-    function highlight(text, keyword) {
-      const safe = escapeHtml(text);
-      const q = keyword.trim();
-      if (!q) return safe;
-      const escaped = q.replace(/[.*+?^${}()|[\]\]/g, '\$&');
-      return safe.replace(new RegExp(escaped, 'gi'), match => `<mark>${match}</mark>`);
-    }
-
-    function normalize(value) {
-      return String(value ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
-    }
-
-    function render(rows, keyword = '') {
-      tbody.innerHTML = rows.map(row => `
-        <tr>
-          <td class="term-cell" data-label="약자 / 용어"><span class="term">${highlight(row.term, keyword)}</span></td>
-          <td data-label="본래의 표현">${highlight(row.expression, keyword)}</td>
-          <td class="meaning-cell" data-label="의미">${highlight(row.meaning, keyword)}</td>
-        </tr>
-      `).join('');
-
-      const isSearching = keyword.trim().length > 0;
-      statusEl.textContent = isSearching
-        ? `검색 결과 ${rows.length}개 / 전체 ${glossary.length}개`
-        : `전체 ${glossary.length}개 용어`;
-      emptyEl.classList.toggle('show', rows.length === 0);
-    }
-
-    function search() {
-      const q = input.value.trim();
-      if (!q) {
-        render(glossary);
-        return;
+      function normalize(value) {
+        return String(value || "").toLowerCase().replace(/\s+/g, " ").trim();
       }
-      const nq = normalize(q);
-      const filtered = glossary.filter(row =>
-        normalize(row.term).includes(nq) ||
-        normalize(row.expression).includes(nq) ||
-        normalize(row.meaning).includes(nq)
-      );
-      render(filtered, q);
-    }
 
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      search();
-    });
+      function filterRows() {
+        var q = normalize(input.value);
+        var shown = 0;
 
-    resetBtn.addEventListener('click', () => {
-      input.value = '';
-      render(glossary);
-      input.focus();
-    });
+        rows.forEach(function (row) {
+          var haystack = normalize(row.getAttribute("data-search") || row.textContent);
+          var matched = !q || haystack.indexOf(q) !== -1;
+          row.classList.toggle("is-hidden", !matched);
+          if (matched) shown += 1;
+        });
 
-    input.addEventListener('input', () => {
-      if (!input.value.trim()) render(glossary);
-    });
+        statusEl.textContent = q ? ("검색 결과 " + shown + "개 / 전체 " + total + "개") : ("전체 " + total + "개 용어");
+        emptyEl.classList.toggle("show", shown === 0);
+      }
 
-    render(glossary);
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        filterRows();
+      });
+
+      input.addEventListener("input", filterRows);
+
+      resetBtn.addEventListener("click", function () {
+        input.value = "";
+        filterRows();
+        input.focus();
+      });
+
+      filterRows();
+    })();
   </script>
 </body>
 </html>
